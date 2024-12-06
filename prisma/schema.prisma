@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Reemplaza con tu cadena de conexión
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  firstName String
+  lastName  String
+  username  String
+  password  String
+  identify  String
+  rolId     Int
+  rol       Roles   @relation(fields: [rolId], references: [id])
+  status    Boolean
+}
+
+model Roles {
+  id   Int    @id @default(autoincrement())
+  rol  String
+  User User[]
+}
+
+model Equipment {
+  id               Int           @id @default(autoincrement())
+  model            String
+  brand            String
+  yearManufactured Int
+  serialNumber     String        @unique
+  loadCapacity     Float
+  dimensions       String?
+  currentStatus    String        @default("available")
+  maintenances     Maintenance[]
+  rentals          Rental[]
+  workOrders       WorkOrder[]
+  createdAt        DateTime      @default(now())
+}
+
+model Maintenance {
+  id              Int       @id @default(autoincrement())
+  equipmentId     Int
+  maintenanceType String // Possible values: "preventive", "corrective"
+  maintenanceDate DateTime
+  description     String?
+  equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  createdAt       DateTime  @default(now())
+}
+
+model SparePart {
+  id            Int                @id @default(autoincrement())
+  sparePartName String
+  description   String?
+  currentStock  Int
+  minimumStock  Int
+  maximumStock  Int
+  stockHistory  SparePartHistory[]
+  createdAt     DateTime           @default(now())
+}
+
+model SparePartHistory {
+  id            Int       @id @default(autoincrement())
+  sparePartId   Int
+  operationType String // Possible values: "purchase", "consumption"
+  quantity      Int
+  operationDate DateTime
+  description   String?
+  sparePart     SparePart @relation(fields: [sparePartId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+  id             Int      @id @default(autoincrement())
+  customerName   String
+  contactDetails String?
+  address        String?
+  rentals        Rental[]
+  createdAt      DateTime @default(now())
+}
+
+model Rental {
+  id              Int       @id @default(autoincrement())
+  customerId      Int
+  equipmentId     Int
+  rentalStartDate DateTime
+  rentalEndDate   DateTime
+  rentalRate      Float
+  totalCost       Float?
+  customer        Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  createdAt       DateTime  @default(now())
+}
+
+model WorkOrder {
+  id              Int       @id @default(autoincrement())
+  equipmentId     Int
+  workOrderDate   DateTime
+  description     String?
+  workOrderStatus String // Possible values: "pending", "completed"
+  equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  createdAt       DateTime  @default(now())
+}
+
+model Report {
+  id          Int      @id @default(autoincrement())
+  reportType  String
+  description String?
+  reportDate  DateTime
+  reportData  Json
+  createdAt   DateTime @default(now())
+}
