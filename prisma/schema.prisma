@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // Reemplaza con tu cadena de conexión
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -87,10 +87,40 @@ model Rental {
   rentalStartDate DateTime
   rentalEndDate   DateTime
   rentalRate      Float
-  totalCost       Float?
+  totalCost       Float
+  paymentId       Int
+  payment         Payment   @relation(fields: [paymentId], references: [idPayment])
   customer        Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
   equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
   createdAt       DateTime  @default(now())
+}
+
+model Payment {
+  idPayment Int         @id @default(autoincrement())
+  typeId    Int
+  type      TypePayment @relation(fields: [typeId], references: [idTypePayment])
+  bank      String
+  identify  String
+  email     String
+  owner     String
+  Rental    Rental[]
+}
+
+model TypePayment {
+  idTypePayment Int       @id @default(autoincrement())
+  typePayment   String
+  Payment       Payment[]
+}
+
+model Rent {
+  idRent       Int      @id @default(autoincrement())
+  equipment    Int
+  dateRegister DateTime
+  dateDuration DateTime
+  ClientId     Int
+  monto        Int
+  payment      Int
+  status       Boolean
 }
 
 model WorkOrder {

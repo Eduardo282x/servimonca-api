@@ -12,10 +12,16 @@ export class MainloadService {
             await this.prismaService.roles.createMany({
                 data: [
                     {
-                        rol: 'Administrador'
+                        rol: 'Administrador '
                     },
                     {
-                        rol: 'Usuario'
+                        rol: 'Personal Administrativo'
+                    },
+                    {
+                        rol: 'Almacén'
+                    },
+                    {
+                        rol: 'Taller'
                     }
                 ]
             })
