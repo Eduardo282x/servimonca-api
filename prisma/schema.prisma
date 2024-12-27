@@ -25,19 +25,26 @@ model Roles {
   User User[]
 }
 
+model StatusEquipment {
+  id        Int         @id @default(autoincrement())
+  status    String
+  Equipment Equipment[]
+}
+
 model Equipment {
-  id               Int           @id @default(autoincrement())
+  id               Int             @id @default(autoincrement())
   model            String
   brand            String
   yearManufactured Int
-  serialNumber     String        @unique
+  serialNumber     String          @unique
   loadCapacity     Float
-  dimensions       String?
-  currentStatus    String        @default("available")
+  dimensions       String
+  currentStatusId  Int
+  currentStatus    StatusEquipment @relation(references: [id], fields: [currentStatusId])
   maintenances     Maintenance[]
   rentals          Rental[]
   workOrders       WorkOrder[]
-  createdAt        DateTime      @default(now())
+  createdAt        DateTime        @default(now())
 }
 
 model Maintenance {
@@ -72,12 +79,13 @@ model SparePartHistory {
 }
 
 model Customer {
-  id             Int      @id @default(autoincrement())
-  customerName   String
-  contactDetails String?
-  address        String?
-  rentals        Rental[]
-  createdAt      DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  customerName     String
+  customerLastname String
+  customerEmail    String
+  customerAddress  String
+  rentals          Rental[]
+  createdAt        DateTime @default(now())
 }
 
 model Rental {
