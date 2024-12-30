@@ -49,12 +49,11 @@ export class UserService {
                     id: user.id
                 }
             });
-            baseResponse.message = 'Usuario creado exitosamente';
+            baseResponse.message = 'Usuario actualizado exitosamente';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;
             return baseResponse;
         }
-        return baseResponse;
     }
 }
