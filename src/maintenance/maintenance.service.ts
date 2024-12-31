@@ -10,7 +10,11 @@ export class MaintenanceService {
     constructor(private prismaService: PrismaService) { }
 
     async getMaintenances(): Promise<Maintenance[]> {
-        return await this.prismaService.maintenance.findMany();
+        return await this.prismaService.maintenance.findMany({
+            include: {
+                equipment: true
+            }
+        });
     }
 
     async createMaintenance(newMaintenance: DtoMaintenance): Promise<DtoBaseResponse> {

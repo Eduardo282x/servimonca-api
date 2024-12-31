@@ -10,7 +10,11 @@ export class EquipmentService {
     constructor(private prismaService: PrismaService) { }
 
     async getEquipment(): Promise<Equipment[]> {
-        return await this.prismaService.equipment.findMany();
+        return await this.prismaService.equipment.findMany({
+            include: {
+                currentStatus: true
+            }
+        });
     }
 
     async getStatusEquipment(): Promise<StatusEquipment[]> {
