@@ -26,10 +26,8 @@ export class RentalService {
                     equipmentId: newRent.equipmentId,
                     rentalStartDate: newRent.rentalStartDate,
                     rentalEndDate: newRent.rentalEndDate,
-                    rentalRate: 0.00,
-                    // rentalRate: rent.rentalRate,
-                    totalCost: 0.00,
-                    // totalCost: rent.totalCost,
+                    rentalRate: newRent.rentalRate,
+                    totalCost: newRent.totalCost,
                     paymentId: newRent.paymentId
                 },
             });
@@ -49,10 +47,8 @@ export class RentalService {
                     equipmentId: rent.equipmentId,
                     rentalStartDate: rent.rentalStartDate,
                     rentalEndDate: rent.rentalEndDate,
-                    rentalRate: 0.00,
-                    // rentalRate: rent.rentalRate,
-                    totalCost: 0.00,
-                    // totalCost: rent.totalCost,
+                    rentalRate: rent.rentalRate,
+                    totalCost: rent.totalCost,
                     paymentId: rent.paymentId
                 },
                 where: {

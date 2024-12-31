@@ -12,10 +12,10 @@ export class DtoRental {
     @Transform(({ value }) => new Date(value))
     @IsDate()
     rentalEndDate: Date;
-    @IsString()
-    rentalRate: string;
-    @IsString()
-    totalCost: string;
+    @IsNumber({allowInfinity: true, allowNaN: true})
+    rentalRate: number;
+    @IsNumber({allowInfinity: true, allowNaN: true})
+    totalCost: number;
     @IsNumber()
     paymentId: number;
 }

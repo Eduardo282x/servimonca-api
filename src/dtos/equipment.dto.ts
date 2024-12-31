@@ -9,10 +9,8 @@ export class DtoEquipment {
     yearManufactured: number;
     @IsString()
     serialNumber: string;
-    //float
-    @IsString()
-    loadCapacity: string;
-
+    @IsNumber({allowInfinity: true, allowNaN: true})
+    loadCapacity: number;
     @IsString()
     dimensions: string;
     @IsNumber()
