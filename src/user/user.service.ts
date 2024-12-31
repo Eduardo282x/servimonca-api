@@ -56,4 +56,19 @@ export class UserService {
             return baseResponse;
         }
     }
+
+    async deleteUser(id: number): Promise<DtoBaseResponse> {
+        try {
+            await this.prismaService.user.delete({
+                where: {
+                    id: id
+                }
+            });
+            baseResponse.message = 'Usuario eliminado exitosamente';
+            return baseResponse;
+        } catch (err) {
+            baseResponse.message += err.message;
+            return baseResponse;
+        }
+    }
 }

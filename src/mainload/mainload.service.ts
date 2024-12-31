@@ -49,6 +49,23 @@ export class MainloadService {
                 ]
             });
 
+            await this.prismaService.statusEquipment.createMany({
+                data: [
+                    {
+                        status: 'Disponible'
+                    },
+                    {
+                        status: 'En uso'
+                    },
+                    {
+                        status: 'En mantenimiento'
+                    },
+                    {
+                        status: 'Dañado'
+                    }
+                ]
+            });
+
             await this.prismaService.equipment.createMany({
                 data: [
                     {
@@ -58,7 +75,7 @@ export class MainloadService {
                         serialNumber: 'SN12345',
                         loadCapacity: 5000.0,
                         dimensions: '5x2x3',
-                        currentStatus: 'available',
+                        currentStatusId: 1,
                     },
                     {
                         model: 'Model B',
@@ -67,7 +84,7 @@ export class MainloadService {
                         serialNumber: 'SN67890',
                         loadCapacity: 7000.0,
                         dimensions: '6x3x4',
-                        currentStatus: 'in use',
+                        currentStatusId: 2,
                     },
                 ],
             });
@@ -96,17 +113,54 @@ export class MainloadService {
             await this.prismaService.customer.createMany({
                 data: [
                     {
-                        customerName: 'John Doe',
-                        contactDetails: 'johndoe@example.com',
-                        address: '123 Main St, Cityville',
+                        customerName: 'John',
+                        customerLastname: 'Doe',
+                        customerEmail: 'johndoe@example.com',
+                        customerAddress: '123 Main St, Cityville',
                     },
                     {
-                        customerName: 'Jane Smith',
-                        contactDetails: 'janesmith@example.com',
-                        address: '456 Elm St, Townsville',
+                        customerName: 'Jane',
+                        customerLastname: 'Smith',
+                        customerEmail: 'janesmith@example.com',
+                        customerAddress: '456 Elm St, Townsville',
                     },
                 ],
             });
+
+            await this.prismaService.typePayment.createMany({
+                data: [
+                    {
+                        typePayment: 'Transferencia'
+                    },
+                    {
+                        typePayment: 'Pago móvil'
+                    },
+                    {
+                        typePayment: 'Zelle'
+                    }
+                ]
+            })
+
+            await this.prismaService.payment.createMany({
+                data: [
+                    {
+                        typeId: 2,
+                        bank: 'BNC',
+                        identify: '28391325',
+                        email: '',
+                        phone: '04165610813',
+                        owner: 'Eduardo Rojas'
+                    },
+                    {
+                        typeId: 3,
+                        bank: 'Zelle',
+                        identify: '28391325',
+                        email: 'eduardorojas@gmail.com',
+                        phone: '',
+                        owner: 'Eduardo Rojas'
+                    },
+                ]
+            })
 
             // Seeding Rentals
             await this.prismaService.rental.createMany({
@@ -118,6 +172,7 @@ export class MainloadService {
                         rentalEndDate: new Date('2024-01-10'),
                         rentalRate: 100.0,
                         totalCost: 1000.0,
+                        paymentId: 1
                     },
                     {
                         customerId: 2,
@@ -126,6 +181,7 @@ export class MainloadService {
                         rentalEndDate: new Date('2024-02-15'),
                         rentalRate: 150.0,
                         totalCost: 2250.0,
+                        paymentId: 2
                     },
                 ],
             });

@@ -36,7 +36,7 @@ model Equipment {
   model            String
   brand            String
   yearManufactured Int
-  serialNumber     String          @unique
+  serialNumber     String
   loadCapacity     Float
   dimensions       String
   currentStatusId  Int
@@ -49,10 +49,10 @@ model Equipment {
 
 model Maintenance {
   id              Int       @id @default(autoincrement())
-  equipmentId     Int
-  maintenanceType String // Possible values: "preventive", "corrective"
+  maintenanceType String
   maintenanceDate DateTime
-  description     String?
+  description     String
+  equipmentId     Int
   equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
   createdAt       DateTime  @default(now())
 }
@@ -97,27 +97,28 @@ model Rental {
   rentalRate      Float
   totalCost       Float
   paymentId       Int
-  payment         Payment   @relation(fields: [paymentId], references: [idPayment])
+  payment         Payment   @relation(fields: [paymentId], references: [id])
   customer        Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
   equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
   createdAt       DateTime  @default(now())
 }
 
 model Payment {
-  idPayment Int         @id @default(autoincrement())
-  typeId    Int
-  type      TypePayment @relation(fields: [typeId], references: [idTypePayment])
-  bank      String
-  identify  String
-  email     String
-  owner     String
-  Rental    Rental[]
+  id       Int         @id @default(autoincrement())
+  bank     String
+  identify String
+  email    String
+  phone    String
+  owner    String
+  typeId   Int
+  type     TypePayment @relation(fields: [typeId], references: [id])
+  Rental   Rental[]
 }
 
 model TypePayment {
-  idTypePayment Int       @id @default(autoincrement())
-  typePayment   String
-  Payment       Payment[]
+  id          Int       @id @default(autoincrement())
+  typePayment String
+  Payment     Payment[]
 }
 
 model Rent {
