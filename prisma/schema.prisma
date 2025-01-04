@@ -30,7 +30,6 @@ model StatusEquipment {
   status    String
   Equipment Equipment[]
 }
-
 model Equipment {
   id               Int             @id @default(autoincrement())
   model            String
@@ -46,7 +45,6 @@ model Equipment {
   workOrders       WorkOrder[]
   createdAt        DateTime        @default(now())
 }
-
 model Maintenance {
   id              Int       @id @default(autoincrement())
   maintenanceType String
@@ -56,25 +54,23 @@ model Maintenance {
   equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
   createdAt       DateTime  @default(now())
 }
-
 model SparePart {
   id            Int                @id @default(autoincrement())
   sparePartName String
-  description   String?
+  description   String
   currentStock  Int
   minimumStock  Int
   maximumStock  Int
   stockHistory  SparePartHistory[]
   createdAt     DateTime           @default(now())
 }
-
 model SparePartHistory {
   id            Int       @id @default(autoincrement())
   sparePartId   Int
-  operationType String // Possible values: "purchase", "consumption"
+  operationType String
   quantity      Int
   operationDate DateTime
-  description   String?
+  description   String
   sparePart     SparePart @relation(fields: [sparePartId], references: [id], onDelete: Cascade)
 }
 
@@ -87,7 +83,23 @@ model Customer {
   rentals          Rental[]
   createdAt        DateTime @default(now())
 }
+model TypePayment {
+  id          Int       @id @default(autoincrement())
+  typePayment String
+  Payment     Payment[]
+}
 
+model Payment {
+  id       Int         @id @default(autoincrement())
+  bank     String
+  identify String
+  email    String
+  phone    String
+  owner    String
+  typeId   Int
+  type     TypePayment @relation(fields: [typeId], references: [id])
+  Rental   Rental[]
+}
 model Rental {
   id              Int       @id @default(autoincrement())
   customerId      Int
@@ -103,24 +115,6 @@ model Rental {
   createdAt       DateTime  @default(now())
 }
 
-model Payment {
-  id       Int         @id @default(autoincrement())
-  bank     String
-  identify String
-  email    String
-  phone    String
-  owner    String
-  typeId   Int
-  type     TypePayment @relation(fields: [typeId], references: [id])
-  Rental   Rental[]
-}
-
-model TypePayment {
-  id          Int       @id @default(autoincrement())
-  typePayment String
-  Payment     Payment[]
-}
-
 model Rent {
   idRent       Int      @id @default(autoincrement())
   equipment    Int
@@ -131,13 +125,12 @@ model Rent {
   payment      Int
   status       Boolean
 }
-
 model WorkOrder {
   id              Int       @id @default(autoincrement())
   equipmentId     Int
   workOrderDate   DateTime
-  description     String?
-  workOrderStatus String // Possible values: "pending", "completed"
+  description     String
+  workOrderStatus String
   equipment       Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
   createdAt       DateTime  @default(now())
 }
@@ -145,8 +138,6 @@ model WorkOrder {
 model Report {
   id          Int      @id @default(autoincrement())
   reportType  String
-  description String?
-  reportDate  DateTime
-  reportData  Json
+  description String
   createdAt   DateTime @default(now())
 }

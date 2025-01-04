@@ -49,196 +49,113 @@ export class MainloadService {
                 ]
             });
 
-            await this.prismaService.statusEquipment.createMany({
-                data: [
-                    {
-                        status: 'Disponible'
-                    },
-                    {
-                        status: 'En uso'
-                    },
-                    {
-                        status: 'En mantenimiento'
-                    },
-                    {
-                        status: 'Dañado'
-                    }
-                ]
-            });
+            const statusEquipmentData = [
+                { status: 'Disponible' },
+                { status: 'En alquiler' },
+                { status: 'En mantenimiento' },
+                { status: 'Reparación' },
+                { status: 'No disponible' },
+            ];
+            await this.prismaService.statusEquipment.createMany({ data: statusEquipmentData });
 
-            await this.prismaService.equipment.createMany({
-                data: [
-                    {
-                        model: 'Model A',
-                        brand: 'Brand X',
-                        yearManufactured: 2020,
-                        serialNumber: 'SN12345',
-                        loadCapacity: 5000.0,
-                        dimensions: '5x2x3',
-                        currentStatusId: 1,
-                    },
-                    {
-                        model: 'Model B',
-                        brand: 'Brand Y',
-                        yearManufactured: 2021,
-                        serialNumber: 'SN67890',
-                        loadCapacity: 7000.0,
-                        dimensions: '6x3x4',
-                        currentStatusId: 2,
-                    },
-                ],
-            });
+            // Poblar tabla Equipment
+            const equipmentData = Array.from({ length: 10 }, (_, i) => ({
+                model: `Modelo-${i + 1}`,
+                brand: `Marca-${i + 1}`,
+                yearManufactured: 2015 + i,
+                serialNumber: `SN-${1000 + i}`,
+                loadCapacity: 1000 + i * 500,
+                dimensions: `${i + 2}x${i + 3}x${i + 4}`,
+                currentStatusId: 1,
+            }));
+            await this.prismaService.equipment.createMany({ data: equipmentData });
 
-            // Seeding SparePart
-            await this.prismaService.sparePart.createMany({
-                data: [
-                    {
-                        sparePartName: 'Hydraulic Pump',
-                        description: 'Essential for lifting operations',
-                        currentStock: 15,
-                        minimumStock: 5,
-                        maximumStock: 50,
-                    },
-                    {
-                        sparePartName: 'Brake Pads',
-                        description: 'High-performance brake pads',
-                        currentStock: 50,
-                        minimumStock: 10,
-                        maximumStock: 200,
-                    },
-                ],
-            });
+            // Poblar tabla Maintenance
+            const maintenanceData = Array.from({ length: 10 }, (_, i) => ({
+                maintenanceType: i % 2 === 0 ? 'Preventivo' : 'Correctivo',
+                maintenanceDate: new Date(),
+                description: `Descripción del mantenimiento ${i + 1}`,
+                equipmentId: i + 1,
+            }));
+            await this.prismaService.maintenance.createMany({ data: maintenanceData });
 
-            // Seeding Customers
-            await this.prismaService.customer.createMany({
-                data: [
-                    {
-                        customerName: 'John',
-                        customerLastname: 'Doe',
-                        customerEmail: 'johndoe@example.com',
-                        customerAddress: '123 Main St, Cityville',
-                    },
-                    {
-                        customerName: 'Jane',
-                        customerLastname: 'Smith',
-                        customerEmail: 'janesmith@example.com',
-                        customerAddress: '456 Elm St, Townsville',
-                    },
-                ],
-            });
+            // Poblar tabla SparePart
+            const sparePartData = Array.from({ length: 10 }, (_, i) => ({
+                sparePartName: `Repuesto-${i + 1}`,
+                description: `Descripción del repuesto ${i + 1}`,
+                currentStock: 10 + i,
+                minimumStock: 5,
+                maximumStock: 20,
+            }));
+            await this.prismaService.sparePart.createMany({ data: sparePartData });
 
-            await this.prismaService.typePayment.createMany({
-                data: [
-                    {
-                        typePayment: 'Transferencia'
-                    },
-                    {
-                        typePayment: 'Pago móvil'
-                    },
-                    {
-                        typePayment: 'Zelle'
-                    }
-                ]
-            })
+            // Poblar tabla SparePartHistory
+            const sparePartHistoryData = Array.from({ length: 10 }, (_, i) => ({
+                sparePartId: i + 1,
+                operationType: i % 2 === 0 ? 'Entrada' : 'Salida',
+                quantity: 5 + i,
+                operationDate: new Date(),
+                description: `Operación de repuesto ${i + 1}`,
+            }));
+            await this.prismaService.sparePartHistory.createMany({ data: sparePartHistoryData });
 
-            await this.prismaService.payment.createMany({
-                data: [
-                    {
-                        typeId: 2,
-                        bank: 'BNC',
-                        identify: '28391325',
-                        email: '',
-                        phone: '04165610813',
-                        owner: 'Eduardo Rojas'
-                    },
-                    {
-                        typeId: 3,
-                        bank: 'Zelle',
-                        identify: '28391325',
-                        email: 'eduardorojas@gmail.com',
-                        phone: '',
-                        owner: 'Eduardo Rojas'
-                    },
-                ]
-            })
+            // Poblar tabla Customer
+            const customerData = Array.from({ length: 10 }, (_, i) => ({
+                customerName: `Cliente-${i + 1}`,
+                customerLastname: `Apellido-${i + 1}`,
+                customerEmail: `cliente${i + 1}@correo.com`,
+                customerAddress: `Dirección del cliente ${i + 1}`,
+            }));
+            await this.prismaService.customer.createMany({ data: customerData });
 
-            // Seeding Rentals
-            await this.prismaService.rental.createMany({
-                data: [
-                    {
-                        customerId: 1, // Ensure these IDs correspond to seeded customers
-                        equipmentId: 1, // Ensure these IDs correspond to seeded equipment
-                        rentalStartDate: new Date('2024-01-01'),
-                        rentalEndDate: new Date('2024-01-10'),
-                        rentalRate: 100.0,
-                        totalCost: 1000.0,
-                        paymentId: 1
-                    },
-                    {
-                        customerId: 2,
-                        equipmentId: 2,
-                        rentalStartDate: new Date('2024-02-01'),
-                        rentalEndDate: new Date('2024-02-15'),
-                        rentalRate: 150.0,
-                        totalCost: 2250.0,
-                        paymentId: 2
-                    },
-                ],
-            });
+            // Poblar tabla TypePayment
+            const typePaymentData = [
+                { typePayment: 'Efectivo' },
+                { typePayment: 'Transferencia bancaria' },
+                { typePayment: 'Tarjeta de crédito' },
+                { typePayment: 'PayPal' },
+                { typePayment: 'Cheque' },
+            ];
+            await this.prismaService.typePayment.createMany({ data: typePaymentData });
 
-            // Seeding Maintenance
-            await this.prismaService.maintenance.createMany({
-                data: [
-                    {
-                        equipmentId: 1,
-                        maintenanceType: 'preventive',
-                        maintenanceDate: new Date('2024-03-01'),
-                        description: 'Oil change and general inspection',
-                    },
-                    {
-                        equipmentId: 2,
-                        maintenanceType: 'corrective',
-                        maintenanceDate: new Date('2024-04-01'),
-                        description: 'Replaced hydraulic pump',
-                    },
-                ],
-            });
+            // Poblar tabla Payment
+            const paymentData = Array.from({ length: 10 }, (_, i) => ({
+                bank: `Banco-${i + 1}`,
+                identify: `ID-${i + 1}`,
+                email: `pago${i + 1}@correo.com`,
+                phone: `0414-555-000${i}`,
+                owner: `Propietario-${i + 1}`,
+                typeId: 1,
+            }));
+            await this.prismaService.payment.createMany({ data: paymentData });
 
-            // Seeding WorkOrders
-            await this.prismaService.workOrder.createMany({
-                data: [
-                    {
-                        equipmentId: 1,
-                        workOrderDate: new Date('2024-05-01'),
-                        description: 'Fixing steering issues',
-                        workOrderStatus: 'pending',
-                    },
-                    {
-                        equipmentId: 2,
-                        workOrderDate: new Date('2024-06-01'),
-                        description: 'Replacing brake pads',
-                        workOrderStatus: 'completed',
-                    },
-                ],
-            });
+            // Poblar tabla Rental
+            const rentalData = Array.from({ length: 10 }, (_, i) => ({
+                customerId: i + 1,
+                equipmentId: i + 1,
+                rentalStartDate: new Date(),
+                rentalEndDate: new Date(new Date().setDate(new Date().getDate() + 7)),
+                rentalRate: 1000 + i * 200,
+                totalCost: 7000 + i * 200,
+                paymentId: i + 1,
+            }));
+            await this.prismaService.rental.createMany({ data: rentalData });
 
-            // Seeding Reports
-            await this.prismaService.report.createMany({
-                data: [
-                    {
-                        reportType: 'inventory',
-                        description: 'Monthly stock overview',
-                        reportDate: new Date('2024-07-01'),
-                        reportData: { totalItems: 200 },
-                    },
-                    {
-                        reportType: 'maintenance',
-                        description: 'Summary of maintenance activities',
-                        reportDate: new Date('2024-08-01'),
-                        reportData: { totalMaintenances: 10 },
-                    },
-                ],
-            });
+            // Poblar tabla WorkOrder
+            const workOrderData = Array.from({ length: 10 }, (_, i) => ({
+                equipmentId: i + 1,
+                workOrderDate: new Date(),
+                description: `Orden de trabajo ${i + 1}`,
+                workOrderStatus: i % 2 === 0 ? 'En progreso' : 'Completada',
+            }));
+            await this.prismaService.workOrder.createMany({ data: workOrderData });
+
+            // Poblar tabla Report
+            const reportData = Array.from({ length: 10 }, (_, i) => ({
+                reportType: i % 2 === 0 ? 'Inventario' : 'Mantenimiento',
+                description: `Reporte ${i + 1}`,
+            }));
+            await this.prismaService.report.createMany({ data: reportData });
 
             baseResponse.message = 'Data cargada exitosamente';
             return baseResponse

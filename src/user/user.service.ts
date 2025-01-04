@@ -10,7 +10,11 @@ export class UserService {
     constructor(private prismaService: PrismaService) { }
 
     async getAllUsers(): Promise<User[]> {
-        return await this.prismaService.user.findMany();
+        return await this.prismaService.user.findMany({
+            include: {
+                rol: true
+            }
+        });
     }
 
     async createUser(newUser: DtoUser): Promise<DtoBaseResponse> {
