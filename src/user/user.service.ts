@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { User, Roles } from '@prisma/client';
 import { baseResponse, DtoBaseResponse } from 'src/dtos/base.dto';
 import { DtoUpdateUser, DtoUser } from 'src/dtos/user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -15,6 +15,10 @@ export class UserService {
                 rol: true
             }
         });
+    }
+
+    async getRoles():Promise<Roles[]> {
+        return await this.prismaService.roles.findMany();
     }
 
     async createUser(newUser: DtoUser): Promise<DtoBaseResponse> {
