@@ -10,7 +10,11 @@ export class CustomerService {
     constructor(private prismaService: PrismaService) {}
 
     async getCustomers():Promise<Customer[]>{
-        return await this.prismaService.customer.findMany();
+        return await this.prismaService.customer.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        });
     }
 
         async createCustomer(newCostumer: DtoCustomer): Promise<DtoBaseResponse> {

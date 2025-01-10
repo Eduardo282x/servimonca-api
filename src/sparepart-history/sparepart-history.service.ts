@@ -9,6 +9,9 @@ export class SparepartHistoryService {
 
     async getSparepartHistory(): Promise<SparePartHistory[]> {
         return await this.prismaService.sparePartHistory.findMany({
+            orderBy:{
+                id: 'asc'
+            },
             include: {
                 sparePart: true
             }

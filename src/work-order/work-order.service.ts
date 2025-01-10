@@ -8,6 +8,10 @@ export class WorkOrderService {
     constructor(private prismaService: PrismaService) {}
 
     async getAllWorkOrders(): Promise<WorkOrder[]> {
-        return await this.prismaService.workOrder.findMany();
+        return await this.prismaService.workOrder.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        });
     }
 }

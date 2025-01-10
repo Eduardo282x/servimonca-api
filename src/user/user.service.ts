@@ -11,9 +11,12 @@ export class UserService {
 
     async getAllUsers(): Promise<User[]> {
         return await this.prismaService.user.findMany({
+            orderBy:{
+                id: 'asc'
+            },
             include: {
                 rol: true
-            }
+            },
         });
     }
 

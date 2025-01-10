@@ -11,6 +11,9 @@ export class MaintenanceService {
 
     async getMaintenances(): Promise<Maintenance[]> {
         return await this.prismaService.maintenance.findMany({
+            orderBy:{
+                id: 'asc'
+            },
             include: {
                 equipment: true
             }

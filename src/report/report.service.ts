@@ -8,6 +8,10 @@ export class ReportService {
     constructor(private prismaService: PrismaService) {}
 
     async getReports():Promise<Report[]> {
-        return await this.prismaService.report.findMany();
+        return await this.prismaService.report.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        });
     }
 }

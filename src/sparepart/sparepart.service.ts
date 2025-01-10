@@ -8,6 +8,10 @@ export class SparepartService {
     constructor(private prismaService: PrismaService) {}
 
     async getSpareparts(): Promise<SparePart[]> {
-        return this.prismaService.sparePart.findMany();
+        return this.prismaService.sparePart.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        });
     }
 }
