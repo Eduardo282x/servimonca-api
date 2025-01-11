@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class DtoUser {
     @IsString()
@@ -11,8 +11,6 @@ export class DtoUser {
     identify: string;
     @IsNumber()
     rolId: number;
-    @IsBoolean()
-    status: boolean;
 }
 
 export class DtoUpdateUser extends DtoUser {

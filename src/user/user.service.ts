@@ -34,7 +34,7 @@ export class UserService {
                     identify: newUser.identify,
                     password: newUser.identify,
                     rolId: newUser.rolId,
-                    status: newUser.status,
+                    status: true,
                 },
             });
             baseResponse.message = 'Usuario creado exitosamente';
@@ -54,7 +54,7 @@ export class UserService {
                     username: user.username,
                     identify: user.identify,
                     rolId: user.rolId,
-                    status: user.status,
+                    status: true,
                 },
                 where: {
                     id: user.id
