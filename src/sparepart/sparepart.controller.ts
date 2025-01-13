@@ -26,7 +26,7 @@ export class SparepartController {
     }
 
     @Delete('/:id')
-    async deleteSpareparts(@Param(':id') id: number) {
+    async deleteSpareparts(@Param('id') id: number) {
         return await this.sparepartsService.deleteSpareparts(id);
     }
 }

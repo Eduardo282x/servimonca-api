@@ -24,11 +24,6 @@ export class AuthService {
             return badResponse;
         }
 
-        if (!findUser.status) {
-            badResponse.message = 'El usuario no se encuentra activo';
-            return badResponse;
-        }
-
         baseResponse.message = `Bienvenido ${findUser.firstName} ${findUser.lastName}`;
         const loginResponse: ResponseLogin = {
             ...baseResponse,

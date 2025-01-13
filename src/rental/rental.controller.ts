@@ -24,7 +24,7 @@ export class RentalController {
     }
 
     @Delete('/:id')
-    async deleteUser(@Param(':id') id: number) {
+    async deleteUser(@Param('id') id: number) {
         return await this.rentalService.deleteRent(id);
     }
 

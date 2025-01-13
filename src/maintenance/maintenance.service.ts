@@ -30,7 +30,7 @@ export class MaintenanceService {
                     equipmentId: newMaintenance.equipmentId
                 },
             });
-            baseResponse.message = 'Usuario creado exitosamente';
+            baseResponse.message = 'Mantenimiento registrado exitosamente';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;
@@ -51,7 +51,7 @@ export class MaintenanceService {
                     id: maintenance.id
                 }
             });
-            baseResponse.message = 'Usuario actualizado exitosamente';
+            baseResponse.message = 'Mantenimiento actualizado exitosamente';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;

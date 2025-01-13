@@ -25,7 +25,7 @@ export class SparepartHistoryController {
     }
 
     @Delete('/:id')
-    async deleteSparePartHistory(@Param(':id') id: number) {
+    async deleteSparePartHistory(@Param('id') id: number) {
         return await this.historyService.deleteSparePartHistory(id);
     }
 }

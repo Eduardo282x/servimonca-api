@@ -26,7 +26,7 @@ export class WorkOrderController {
     }
 
     @Delete('/:id')
-    async deleteWorkOrder(@Param(':id') id: number) {
+    async deleteWorkOrder(@Param('id') id: number) {
         return await this.workOrderService.deleteWorkOrder(id);
     }
 }

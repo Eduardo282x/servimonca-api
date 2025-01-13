@@ -29,7 +29,7 @@ export class EquipmentController {
     }
 
     @Delete('/:id')
-    async deleteEquipment(@Param(':id') id: number) {
+    async deleteEquipment(@Param('id') id: number) {
         return await this.equipmentService.deleteEquipment(id);
     }
 }
