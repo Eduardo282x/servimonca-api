@@ -1,17 +1,21 @@
 import { IsNumber, IsString } from "class-validator";
 
-export class DtoCustomer {
+export class DtoClients {
     @IsString()
-    customerName: string;
+    name: string
     @IsString()
-    customerLastname: string;
+    lastname: string
     @IsString()
-    customerEmail: string;
+    rif: string
     @IsString()
-    customerAddress: string;
+    phone: string
+    @IsString()
+    email: string
+    @IsString()
+    address: string
 }
 
-export class DtoUpdateCustomer extends DtoCustomer {
+export class DtoUpdateClients extends DtoClients {
     @IsNumber()
     id: number;
 }

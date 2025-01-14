@@ -1,9 +1,9 @@
 import { Transform } from "class-transformer";
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
 
 export class DtoRental {
     @IsNumber()
-    customerId: number;
+    clientId: number;
     @IsNumber()
     equipmentId: number;
     @Transform(({ value }) => new Date(value))
@@ -12,12 +12,18 @@ export class DtoRental {
     @Transform(({ value }) => new Date(value))
     @IsDate()
     rentalEndDate: Date;
-    @IsNumber({allowInfinity: true, allowNaN: true})
-    rentalRate: number;
+
     @IsNumber({allowInfinity: true, allowNaN: true})
     totalCost: number;
     @IsNumber()
     paymentId: number;
+    @IsBoolean()
+    status: boolean;
+
+    @IsBoolean()
+    checked: boolean;
+    @IsString()
+    description: string;
 }
 
 export class DtoUpdateRental extends DtoRental {

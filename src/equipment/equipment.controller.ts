@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { EquipmentService } from './equipment.service';
-import { Equipment, StatusEquipment } from '@prisma/client';
-import { DtoUser, DtoUpdateUser } from 'src/dtos/user.dto';
+import { Equipment } from '@prisma/client';
 import { DtoEquipment, DtoUpdateEquipment } from 'src/dtos/equipment.dto';
 
 @Controller('equipment')
@@ -12,10 +11,6 @@ export class EquipmentController {
     @Get()
     async getEquipment(): Promise<Equipment[]> {
         return await this.equipmentService.getEquipment();
-    }
-    @Get()
-    async getStatusEquipment(): Promise<StatusEquipment[]> {
-        return await this.equipmentService.getStatusEquipment();
     }
 
     @Post()

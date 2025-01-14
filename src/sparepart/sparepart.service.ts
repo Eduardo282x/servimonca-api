@@ -21,14 +21,15 @@ export class SparepartService {
         try {
             await this.prismaService.sparePart.create({
                 data: {
-                    sparePartName: sparePart.sparePartName,
+                    sparePart: sparePart.sparePart,
+                    model: sparePart.model,
+                    brand: sparePart.brand,
+                    amount: sparePart.amount,
                     description: sparePart.description,
-                    currentStock: sparePart.currentStock,
-                    minimumStock: sparePart.minimumStock,
-                    maximumStock: sparePart.maximumStock,
+                    criticAmount: sparePart.criticAmount
                 },
             });
-            baseResponse.message = 'Equipo creado exitosamente';
+            baseResponse.message = 'Repuesto agregado exitosamente';
             return baseResponse;
         } catch (err) {
             badResponse.message += err.message;
@@ -40,17 +41,18 @@ export class SparepartService {
         try {
             await this.prismaService.sparePart.update({
                 data: {
-                    sparePartName: sparePart.sparePartName,
+                    sparePart: sparePart.sparePart,
+                    model: sparePart.model,
+                    brand: sparePart.brand,
+                    amount: sparePart.amount,
                     description: sparePart.description,
-                    currentStock: sparePart.currentStock,
-                    minimumStock: sparePart.minimumStock,
-                    maximumStock: sparePart.maximumStock,
+                    criticAmount: sparePart.criticAmount
                 },
                 where: {
                     id: sparePart.id
                 }
             });
-            baseResponse.message = 'Equipo actualizado exitosamente';
+            baseResponse.message = 'Repuesto actualizado exitosamente';
             return baseResponse;
         } catch (err) {
             badResponse.message += err.message;

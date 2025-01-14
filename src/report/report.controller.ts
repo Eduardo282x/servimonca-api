@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { ReportService } from './report.service';
-import { Report } from '@prisma/client';
 
 @Controller('report')
 export class ReportController {
@@ -10,7 +9,7 @@ export class ReportController {
     }
 
     @Get()
-    async getReport(): Promise<Report[]> {
+    async getReport(): Promise<string> {
         return await this.reportService.getReports();
     }
 }

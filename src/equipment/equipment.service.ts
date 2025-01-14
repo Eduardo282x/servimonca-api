@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Equipment, StatusEquipment } from '@prisma/client';
+import { Equipment } from '@prisma/client';
 import { baseResponse, DtoBaseResponse } from 'src/dtos/base.dto';
 import { DtoEquipment, DtoUpdateEquipment } from 'src/dtos/equipment.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -13,15 +13,8 @@ export class EquipmentService {
         return await this.prismaService.equipment.findMany({
             orderBy:{
                 id: 'asc'
-            },
-            include: {
-                currentStatus: true
             }
         });
-    }
-
-    async getStatusEquipment(): Promise<StatusEquipment[]> {
-        return await this.prismaService.statusEquipment.findMany();
     }
 
     async createEquipment(newEquipment: DtoEquipment): Promise<DtoBaseResponse> {
@@ -29,15 +22,12 @@ export class EquipmentService {
             await this.prismaService.equipment.create({
                 data: {
                     model: newEquipment.model,
-                    brand: newEquipment.brand,
-                    yearManufactured: newEquipment.yearManufactured,
                     serialNumber: newEquipment.serialNumber,
-                    loadCapacity: newEquipment.loadCapacity,
-                    dimensions: newEquipment.dimensions,
-                    currentStatusId: newEquipment.currentStatusId,
+                    currentStatus: newEquipment.currentStatus,
+                    placa: newEquipment.placa
                 },
             });
-            baseResponse.message = 'Equipo creado exitosamente';
+            baseResponse.message = 'Equipo agregado exitosamente';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;
@@ -50,12 +40,9 @@ export class EquipmentService {
             await this.prismaService.equipment.update({
                 data: {
                     model: equipment.model,
-                    brand: equipment.brand,
-                    yearManufactured: equipment.yearManufactured,
                     serialNumber: equipment.serialNumber,
-                    loadCapacity: equipment.loadCapacity,
-                    dimensions: equipment.dimensions,
-                    currentStatusId: equipment.currentStatusId,
+                    currentStatus: equipment.currentStatus,
+                    placa: equipment.placa
                 },
                 where: {
                     id: equipment.id

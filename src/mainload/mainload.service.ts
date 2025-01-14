@@ -49,113 +49,70 @@ export class MainloadService {
                 ]
             });
 
-            const statusEquipmentData = [
-                { status: 'Disponible' },
-                { status: 'En alquiler' },
-                { status: 'En mantenimiento' },
-                { status: 'Reparación' },
-                { status: 'No disponible' },
-            ];
-            await this.prismaService.statusEquipment.createMany({ data: statusEquipmentData });
-
-            // Poblar tabla Equipment
             const equipmentData = Array.from({ length: 10 }, (_, i) => ({
-                model: `Modelo-${i + 1}`,
-                brand: `Marca-${i + 1}`,
-                yearManufactured: 2015 + i,
+                model: `Equipo Modelo-${i + 1}`,
                 serialNumber: `SN-${1000 + i}`,
-                loadCapacity: 1000 + i * 500,
-                dimensions: `${i + 2}x${i + 3}x${i + 4}`,
-                currentStatusId: 1,
+                currentStatus: i % 2 === 0 ? 'Disponible' : 'En uso',
+                placa: `Placa-${i + 1}`,
             }));
             await this.prismaService.equipment.createMany({ data: equipmentData });
 
-            // Poblar tabla Maintenance
-            const maintenanceData = Array.from({ length: 10 }, (_, i) => ({
-                maintenanceType: i % 2 === 0 ? 'Preventivo' : 'Correctivo',
-                maintenanceDate: new Date(),
-                description: `Descripción del mantenimiento ${i + 1}`,
-                equipmentId: i + 1,
-            }));
-            await this.prismaService.maintenance.createMany({ data: maintenanceData });
-
             // Poblar tabla SparePart
             const sparePartData = Array.from({ length: 10 }, (_, i) => ({
-                sparePartName: `Repuesto-${i + 1}`,
+                sparePart: `Repuesto-${i + 1}`,
+                model: `Modelo-${i + 1}`,
+                brand: `Marca-${i + 1}`,
+                amount: 50 + i * 10,
                 description: `Descripción del repuesto ${i + 1}`,
-                currentStock: 10 + i,
-                minimumStock: 5,
-                maximumStock: 20,
+                criticAmount: 10,
             }));
             await this.prismaService.sparePart.createMany({ data: sparePartData });
 
-            // Poblar tabla SparePartHistory
-            const sparePartHistoryData = Array.from({ length: 10 }, (_, i) => ({
-                sparePartId: i + 1,
-                operationType: i % 2 === 0 ? 'Entrada' : 'Salida',
-                quantity: 5 + i,
-                operationDate: new Date(),
-                description: `Operación de repuesto ${i + 1}`,
+            // Poblar tabla Clients
+            const clientData = Array.from({ length: 10 }, (_, i) => ({
+                name: `Cliente Nombre-${i + 1}`,
+                lastname: `Apellido-${i + 1}`,
+                rif: `J-${10000000 + i}`,
+                phone: `0414-555-00${i}`,
+                email: `cliente${i + 1}@correo.com`,
+                address: `Dirección del cliente ${i + 1}`,
             }));
-            await this.prismaService.sparePartHistory.createMany({ data: sparePartHistoryData });
-
-            // Poblar tabla Customer
-            const customerData = Array.from({ length: 10 }, (_, i) => ({
-                customerName: `Cliente-${i + 1}`,
-                customerLastname: `Apellido-${i + 1}`,
-                customerEmail: `cliente${i + 1}@correo.com`,
-                customerAddress: `Dirección del cliente ${i + 1}`,
-            }));
-            await this.prismaService.customer.createMany({ data: customerData });
-
-            // Poblar tabla TypePayment
-            const typePaymentData = [
-                { typePayment: 'Efectivo' },
-                { typePayment: 'Transferencia bancaria' },
-                { typePayment: 'Tarjeta de crédito' },
-                { typePayment: 'PayPal' },
-                { typePayment: 'Cheque' },
-            ];
-            await this.prismaService.typePayment.createMany({ data: typePaymentData });
+            await this.prismaService.clients.createMany({ data: clientData });
 
             // Poblar tabla Payment
             const paymentData = Array.from({ length: 10 }, (_, i) => ({
                 bank: `Banco-${i + 1}`,
                 identify: `ID-${i + 1}`,
                 email: `pago${i + 1}@correo.com`,
-                phone: `0414-555-000${i}`,
+                phone: `0414-555-100${i}`,
                 owner: `Propietario-${i + 1}`,
-                typeId: 1,
+                type: i % 2 === 0 ? 'Efectivo' : 'Transferencia',
             }));
             await this.prismaService.payment.createMany({ data: paymentData });
 
             // Poblar tabla Rental
             const rentalData = Array.from({ length: 10 }, (_, i) => ({
-                customerId: i + 1,
+                clientId: i + 1,
                 equipmentId: i + 1,
                 rentalStartDate: new Date(),
                 rentalEndDate: new Date(new Date().setDate(new Date().getDate() + 7)),
-                rentalRate: 1000 + i * 200,
-                totalCost: 7000 + i * 200,
+                totalCost: 5000 + i * 500,
                 paymentId: i + 1,
+                checked: i % 2 === 0,
+                description: null,
+                status: i % 2 === 0 ? true : false,
             }));
             await this.prismaService.rental.createMany({ data: rentalData });
 
-            // Poblar tabla WorkOrder
-            const workOrderData = Array.from({ length: 10 }, (_, i) => ({
+            // Poblar tabla Maintenance
+            const maintenanceData = Array.from({ length: 10 }, (_, i) => ({
                 equipmentId: i + 1,
-                workOrderDate: new Date(),
-                description: `Orden de trabajo ${i + 1}`,
-                workOrderStatus: i % 2 === 0 ? 'En progreso' : 'Completada',
+                sparePartId: i + 1,
+                type: i % 2 === 0 ? 'Preventivo' : 'Correctivo',
+                description: `Descripción del mantenimiento ${i + 1}`,
+                maintenanceDate: new Date(),
             }));
-            await this.prismaService.workOrder.createMany({ data: workOrderData });
-
-            // Poblar tabla Report
-            const reportData = Array.from({ length: 10 }, (_, i) => ({
-                reportType: i % 2 === 0 ? 'Inventario' : 'Mantenimiento',
-                description: `Reporte ${i + 1}`,
-            }));
-            await this.prismaService.report.createMany({ data: reportData });
+            await this.prismaService.maintenance.createMany({ data: maintenanceData });
 
             baseResponse.message = 'Data cargada exitosamente';
             return baseResponse

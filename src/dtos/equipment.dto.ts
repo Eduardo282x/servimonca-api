@@ -4,17 +4,11 @@ export class DtoEquipment {
     @IsString()
     model: string;
     @IsString()
-    brand: string;
-    @IsNumber()
-    yearManufactured: number;
-    @IsString()
     serialNumber: string;
-    @IsNumber({allowInfinity: true, allowNaN: true})
-    loadCapacity: number;
     @IsString()
-    dimensions: string;
-    @IsNumber()
-    currentStatusId: number;
+    currentStatus: string;
+    @IsString()
+    placa: string;
 }
 
 export class DtoUpdateEquipment extends DtoEquipment {

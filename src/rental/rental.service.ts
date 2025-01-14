@@ -15,7 +15,7 @@ export class RentalService {
                 id: 'asc'
             },
             include: {
-                customer: true,
+                client: true,
                 equipment: true,
             }
         });
@@ -25,13 +25,15 @@ export class RentalService {
         try {
             await this.prismaService.rental.create({
                 data: {
-                    customerId: newRent.customerId,
+                    clientId: newRent.clientId,
                     equipmentId: newRent.equipmentId,
                     rentalStartDate: newRent.rentalStartDate,
                     rentalEndDate: newRent.rentalEndDate,
-                    rentalRate: newRent.rentalRate,
                     totalCost: newRent.totalCost,
-                    paymentId: newRent.paymentId
+                    paymentId: newRent.paymentId,
+                    status: newRent.status,
+                    checked: newRent.checked,
+                    description: newRent.description
                 },
             });
             baseResponse.message = 'Renta creado exitosamente';
@@ -46,13 +48,15 @@ export class RentalService {
         try {
             await this.prismaService.rental.update({
                 data: {
-                    customerId: rent.customerId,
+                    clientId: rent.clientId,
                     equipmentId: rent.equipmentId,
                     rentalStartDate: rent.rentalStartDate,
                     rentalEndDate: rent.rentalEndDate,
-                    rentalRate: rent.rentalRate,
                     totalCost: rent.totalCost,
-                    paymentId: rent.paymentId
+                    paymentId: rent.paymentId,
+                    status: rent.status,
+                    checked: rent.checked,
+                    description: rent.description
                 },
                 where: {
                     id: rent.id

@@ -11,7 +11,7 @@ export class MaintenanceService {
 
     async getMaintenances(): Promise<Maintenance[]> {
         return await this.prismaService.maintenance.findMany({
-            orderBy:{
+            orderBy: {
                 id: 'asc'
             },
             include: {
@@ -24,10 +24,11 @@ export class MaintenanceService {
         try {
             await this.prismaService.maintenance.create({
                 data: {
-                    maintenanceType: newMaintenance.maintenanceType,
-                    maintenanceDate: newMaintenance.maintenanceDate,
+                    equipmentId: newMaintenance.equipmentId,
+                    sparePartId: newMaintenance.sparePartId,
+                    type: newMaintenance.type,
                     description: newMaintenance.description,
-                    equipmentId: newMaintenance.equipmentId
+                    maintenanceDate: newMaintenance.maintenanceDate
                 },
             });
             baseResponse.message = 'Mantenimiento registrado exitosamente';
@@ -42,10 +43,11 @@ export class MaintenanceService {
         try {
             await this.prismaService.maintenance.update({
                 data: {
-                    maintenanceType: maintenance.maintenanceType,
-                    maintenanceDate: maintenance.maintenanceDate,
+                    equipmentId: maintenance.equipmentId,
+                    sparePartId: maintenance.sparePartId,
+                    type: maintenance.type,
                     description: maintenance.description,
-                    equipmentId: maintenance.equipmentId
+                    maintenanceDate: maintenance.maintenanceDate
                 },
                 where: {
                     id: maintenance.id

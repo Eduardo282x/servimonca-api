@@ -2,15 +2,17 @@ import { IsNumber, IsString } from "class-validator";
 
 export class DtoSparePart {
     @IsString()
-    sparePartName: string;
+    sparePart: string;
+    @IsString()
+    model: string;
+    @IsString()
+    brand: string;
+    @IsNumber()
+    amount: number;
     @IsString()
     description: string;
     @IsNumber()
-    currentStock: number;
-    @IsNumber()
-    minimumStock: number;
-    @IsNumber()
-    maximumStock: number;
+    criticAmount: number;
 }
 
 export class DtoUpdateSparePart extends DtoSparePart {

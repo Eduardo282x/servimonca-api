@@ -7,15 +7,14 @@ import { MainloadModule } from './mainload/mainload.module';
 import { EquipmentModule } from './equipment/equipment.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { SparepartModule } from './sparepart/sparepart.module';
-import { SparepartHistoryModule } from './sparepart-history/sparepart-history.module';
 import { CustomerModule } from './customer/customer.module';
 import { RentalModule } from './rental/rental.module';
-import { WorkOrderModule } from './work-order/work-order.module';
 import { ReportModule } from './report/report.module';
 import { UserModule } from './user/user.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
-  imports: [AuthModule, MainloadModule, EquipmentModule, MaintenanceModule, SparepartModule, SparepartHistoryModule, CustomerModule, RentalModule, WorkOrderModule, ReportModule, UserModule],
+  imports: [AuthModule, MainloadModule, EquipmentModule, MaintenanceModule, SparepartModule, CustomerModule, RentalModule, ReportModule, UserModule, PaymentModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
