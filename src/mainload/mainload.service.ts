@@ -12,7 +12,7 @@ export class MainloadService {
             await this.prismaService.roles.createMany({
                 data: [
                     {
-                        rol: 'Administrador '
+                        rol: 'Administrador'
                     },
                     {
                         rol: 'Personal Administrativo'
@@ -73,7 +73,7 @@ export class MainloadService {
                 name: `Cliente Nombre-${i + 1}`,
                 lastname: `Apellido-${i + 1}`,
                 rif: `J-${10000000 + i}`,
-                phone: `0414-555-00${i}`,
+                phone: `041455500${i}`,
                 email: `cliente${i + 1}@correo.com`,
                 address: `Dirección del cliente ${i + 1}`,
             }));

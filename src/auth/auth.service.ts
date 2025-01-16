@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DtoLogin, ResponseLogin } from 'src/dtos/auth.dto';
+import { DtoLogin, DtoUpdatePassword, ResponseLogin } from 'src/dtos/auth.dto';
 import { badResponse, baseResponse, DtoBaseResponse } from 'src/dtos/base.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -31,5 +31,19 @@ export class AuthService {
         }
 
         return loginResponse;
+    }
+
+    async changePassword(password: DtoUpdatePassword): Promise<DtoBaseResponse> {
+        await this.prismaService.user.update({
+            data: {
+                password: password.password
+            },
+            where: {
+                id: password.id
+            }
+        })
+
+        baseResponse.message = 'Contraseña actualizada.'
+        return baseResponse;
     }
 }
