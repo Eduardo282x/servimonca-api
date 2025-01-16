@@ -27,6 +27,7 @@ export class MaintenanceService {
                     equipmentId: newMaintenance.equipmentId,
                     sparePartId: newMaintenance.sparePartId,
                     type: newMaintenance.type,
+                    status: newMaintenance.status,
                     description: newMaintenance.description,
                     maintenanceDate: newMaintenance.maintenanceDate
                 },
@@ -47,6 +48,7 @@ export class MaintenanceService {
                     sparePartId: maintenance.sparePartId,
                     type: maintenance.type,
                     description: maintenance.description,
+                    status: maintenance.status,
                     maintenanceDate: maintenance.maintenanceDate
                 },
                 where: {

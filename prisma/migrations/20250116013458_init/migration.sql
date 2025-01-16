@@ -26,6 +26,7 @@ CREATE TABLE "Maintenance" (
     "equipmentId" INTEGER NOT NULL,
     "sparePartId" INTEGER NOT NULL,
     "type" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "maintenanceDate" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -95,7 +96,7 @@ CREATE TABLE "Rental" (
     "totalCost" INTEGER NOT NULL,
     "paymentId" INTEGER NOT NULL,
     "checked" BOOLEAN,
-    "description" INTEGER,
+    "description" TEXT,
     "status" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

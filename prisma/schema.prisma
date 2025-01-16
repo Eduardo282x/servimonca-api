@@ -32,6 +32,7 @@ model Maintenance {
   sparePartId     Int
   sparePart       SparePart @relation(fields: [sparePartId], references: [id])
   type            String
+  status          String
   description     String
   maintenanceDate DateTime
   createdAt       DateTime  @default(now())

@@ -9,6 +9,8 @@ export class DtoMaintenance {
     description: string;
     @IsString()
     type: string;
+    @IsString()
+    status: string;
     @IsNumber()
     equipmentId: number;
     @IsNumber()
