@@ -64,6 +64,7 @@ export class MainloadService {
                 brand: `Marca-${i + 1}`,
                 amount: 50 + i * 10,
                 description: `Descripción del repuesto ${i + 1}`,
+                status: i % 2 === 0 ? 'Pending' : 'Approved',
                 criticAmount: 10,
             }));
             await this.prismaService.sparePart.createMany({ data: sparePartData });

@@ -46,6 +46,7 @@ model SparePart {
   amount       Int
   description  String
   criticAmount Int
+  status       String
   Maintenance  Maintenance[]
 }
 

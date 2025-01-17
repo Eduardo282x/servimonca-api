@@ -43,6 +43,7 @@ CREATE TABLE "SparePart" (
     "amount" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
     "criticAmount" INTEGER NOT NULL,
+    "status" TEXT NOT NULL,
 
     CONSTRAINT "SparePart_pkey" PRIMARY KEY ("id")
 );
