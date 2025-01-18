@@ -30,3 +30,10 @@ export class DtoUpdateRental extends DtoRental {
     @IsNumber()
     id: number;
 }
+
+export class DtoUpdateStatusRental {
+    @IsNumber()
+    id: number;
+    @IsBoolean()
+    status: boolean;
+}

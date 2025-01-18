@@ -1,16 +1,16 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { RentalService } from './rental.service';
 import { Rental } from '@prisma/client';
-import { DtoRental, DtoUpdateRental } from 'src/dtos/rental.dto';
+import { DtoRental, DtoUpdateRental, DtoUpdateStatusRental } from 'src/dtos/rental.dto';
 
 @Controller('rental')
 export class RentalController {
 
     constructor(private rentalService: RentalService) {}
 
-    @Get()
-    async getRentals(): Promise<Rental[]> {
-        return this.rentalService.getRentals();
+    @Get('/:status')
+    async getRentals(@Param('status') status: string): Promise<Rental[]> {
+        return this.rentalService.getRentals(status);
     }
 
     @Post()
@@ -18,8 +18,12 @@ export class RentalController {
         return await this.rentalService.createRent(newRent);
     }
 
+    @Put('/status')
+    async updateStatusRent(@Body() rent: DtoUpdateStatusRental) {
+        return await this.rentalService.updateStatusRent(rent);
+    }
     @Put()
-    async updateUser(@Body() rent: DtoUpdateRental) {
+    async updateRent(@Body() rent: DtoUpdateRental) {
         return await this.rentalService.updateRent(rent);
     }
 

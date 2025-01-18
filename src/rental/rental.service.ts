@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Rental } from '@prisma/client';
 import { DtoBaseResponse, baseResponse } from 'src/dtos/base.dto';
-import { DtoRental, DtoUpdateRental } from 'src/dtos/rental.dto';
+import { DtoRental, DtoUpdateRental, DtoUpdateStatusRental } from 'src/dtos/rental.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -9,10 +9,13 @@ export class RentalService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getRentals(): Promise<Rental[]> {
+    async getRentals(status: string): Promise<Rental[]> {
         return await this.prismaService.rental.findMany({
             orderBy:{
                 id: 'asc'
+            },
+            where: {
+                status: status === 'active' ? true : false
             },
             include: {
                 client: true,
@@ -31,12 +34,30 @@ export class RentalService {
                     rentalEndDate: newRent.rentalEndDate,
                     totalCost: newRent.totalCost,
                     paymentId: newRent.paymentId,
-                    status: newRent.status,
+                    status: false,
                     checked: newRent.checked,
                     description: newRent.description
                 },
             });
             baseResponse.message = 'Renta creado exitosamente';
+            return baseResponse;
+        } catch (err) {
+            baseResponse.message += err.message;
+            return baseResponse;
+        }
+    }
+
+    async updateStatusRent(rent: DtoUpdateStatusRental): Promise<DtoBaseResponse> {
+        try {
+            await this.prismaService.rental.update({
+                data: {
+                    status: rent.status,
+                },
+                where: {
+                    id: rent.id
+                }
+            });
+            baseResponse.message = 'Estado actualizado exitosamente';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;
