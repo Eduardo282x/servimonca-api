@@ -4,15 +4,28 @@ import { baseResponse, DtoBaseResponse } from 'src/dtos/base.dto';
 import { DtoEquipment, DtoUpdateEquipment } from 'src/dtos/equipment.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+export type statusEquipment = 'Disponible' | 'Usado';
+
+
 @Injectable()
 export class EquipmentService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getEquipment(): Promise<Equipment[]> {
+    async getEquipmentAll(): Promise<Equipment[]> {
         return await this.prismaService.equipment.findMany({
-            orderBy:{
+            orderBy: {
                 id: 'asc'
+            }
+        });
+    }
+    async getEquipment(status: statusEquipment): Promise<Equipment[]> {
+        return await this.prismaService.equipment.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            where: {
+                currentStatus: status 
             }
         });
     }

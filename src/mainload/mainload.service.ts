@@ -85,7 +85,7 @@ export class MainloadService {
                 bank: `Banco-${i + 1}`,
                 identify: `ID-${i + 1}`,
                 email: `pago${i + 1}@correo.com`,
-                phone: `0414-555-100${i}`,
+                phone: `0414555100${i}`,
                 owner: `Propietario-${i + 1}`,
                 type: i % 2 === 0 ? 'Efectivo' : 'Transferencia',
             }));

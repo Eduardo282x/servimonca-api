@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { EquipmentService } from './equipment.service';
+import { EquipmentService, statusEquipment } from './equipment.service';
 import { Equipment } from '@prisma/client';
 import { DtoEquipment, DtoUpdateEquipment } from 'src/dtos/equipment.dto';
 
@@ -9,8 +9,12 @@ export class EquipmentController {
     constructor(private equipmentService: EquipmentService) { }
 
     @Get()
-    async getEquipment(): Promise<Equipment[]> {
-        return await this.equipmentService.getEquipment();
+    async getEquipmentAll(): Promise<Equipment[]> {
+        return await this.equipmentService.getEquipmentAll();
+    }
+    @Get('/:status')
+    async getEquipment(@Param('status') status: statusEquipment): Promise<Equipment[]> {
+        return await this.equipmentService.getEquipment(status);
     }
 
     @Post()

@@ -35,7 +35,7 @@ export class RentalService {
                     totalCost: newRent.totalCost,
                     paymentId: newRent.paymentId,
                     status: false,
-                    checked: newRent.checked,
+                    checked: false,
                     description: newRent.description
                 },
             });
@@ -75,8 +75,7 @@ export class RentalService {
                     rentalEndDate: rent.rentalEndDate,
                     totalCost: rent.totalCost,
                     paymentId: rent.paymentId,
-                    status: rent.status,
-                    checked: rent.checked,
+                    
                     description: rent.description
                 },
                 where: {

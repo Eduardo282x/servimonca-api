@@ -17,11 +17,6 @@ export class DtoRental {
     totalCost: number;
     @IsNumber()
     paymentId: number;
-    @IsBoolean()
-    status: boolean;
-
-    @IsBoolean()
-    checked: boolean;
     @IsString()
     description: string;
 }
