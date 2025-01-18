@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class DtoMaintenance {
     @Transform(({ value }) => new Date(value))
@@ -9,10 +9,13 @@ export class DtoMaintenance {
     description: string;
     @IsString()
     type: string;
-    @IsString()
-    status: string;
     @IsNumber()
     equipmentId: number;
+    @IsNumber()
+    amount: number;
+    @IsNumber()
+    @IsOptional()
+    clientId: number;
     @IsNumber()
     sparePartId: number;
 }
@@ -20,4 +23,18 @@ export class DtoMaintenance {
 export class DtoUpdateMaintenance extends DtoMaintenance {
     @IsNumber()
     id: number;
+}
+
+export class DtoUpdateCompleteMaintenance {
+    @IsNumber()
+    id: number;
+    @IsString()
+    description: string;
+}
+
+export class DtoUpdateStatusMaintenance {
+    @IsNumber()
+    id: number;
+    @IsString()
+    status: string;
 }

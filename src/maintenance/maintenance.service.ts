@@ -1,18 +1,55 @@
 import { Injectable } from '@nestjs/common';
 import { Maintenance } from '@prisma/client';
 import { DtoBaseResponse, baseResponse } from 'src/dtos/base.dto';
-import { DtoMaintenance, DtoUpdateMaintenance } from 'src/dtos/maintenance.dto';
+import { DtoMaintenance, DtoUpdateCompleteMaintenance, DtoUpdateMaintenance, DtoUpdateStatusMaintenance } from 'src/dtos/maintenance.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+
+export type statusMaintenance = 'Completado' | 'Procesando' | 'Denegado' | 'Pendiente'
 
 @Injectable()
 export class MaintenanceService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getMaintenances(): Promise<Maintenance[]> {
+    async getMaintenances(status: statusMaintenance): Promise<Maintenance[]> {
         return await this.prismaService.maintenance.findMany({
             orderBy: {
                 id: 'asc'
+            },
+            where: {
+                status: status,
+                clientId: null
+            },
+            include: {
+                equipment: true
+            }
+        });
+    }
+
+    async getMaintenancesAll(status: statusMaintenance): Promise<Maintenance[]> {
+        return await this.prismaService.maintenance.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            where: {
+                status: status,
+            },
+            include: {
+                equipment: true
+            }
+        });
+    }
+
+    async getMaintenanceClient(status: statusMaintenance): Promise<Maintenance[]> {
+        return await this.prismaService.maintenance.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            where: {
+                status: status,
+                clientId: {
+                    not: null
+                },
             },
             include: {
                 equipment: true
@@ -27,12 +64,51 @@ export class MaintenanceService {
                     equipmentId: newMaintenance.equipmentId,
                     sparePartId: newMaintenance.sparePartId,
                     type: newMaintenance.type,
-                    status: newMaintenance.status,
+                    clientId: newMaintenance.clientId ? newMaintenance.clientId : null,
+                    amount: newMaintenance.amount,
+                    status: 'Pendiente',
                     description: newMaintenance.description,
                     maintenanceDate: newMaintenance.maintenanceDate
                 },
             });
             baseResponse.message = 'Mantenimiento registrado exitosamente';
+            return baseResponse;
+        } catch (err) {
+            baseResponse.message += err.message;
+            return baseResponse;
+        }
+    }
+
+    async updateStatusMaintenance(maintenance: DtoUpdateStatusMaintenance): Promise<DtoBaseResponse> {
+        try {
+            await this.prismaService.maintenance.update({
+                data: {
+                    status: maintenance.status,
+                },
+                where: {
+                    id: maintenance.id
+                }
+            });
+            baseResponse.message = 'Estado del mantenimiento actualizado.';
+            return baseResponse;
+        } catch (err) {
+            baseResponse.message += err.message;
+            return baseResponse;
+        }
+    }
+
+    async updateCompleteMaintenance(maintenance: DtoUpdateCompleteMaintenance): Promise<DtoBaseResponse> {
+        try {
+            await this.prismaService.maintenance.update({
+                data: {
+                    description: maintenance.description,
+                    status: 'Completado'
+                },
+                where: {
+                    id: maintenance.id
+                }
+            });
+            baseResponse.message = 'Mantenimiento completado.';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;
@@ -48,7 +124,7 @@ export class MaintenanceService {
                     sparePartId: maintenance.sparePartId,
                     type: maintenance.type,
                     description: maintenance.description,
-                    status: maintenance.status,
+                    status: '',
                     maintenanceDate: maintenance.maintenanceDate
                 },
                 where: {

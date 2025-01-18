@@ -25,6 +25,8 @@ CREATE TABLE "Maintenance" (
     "id" SERIAL NOT NULL,
     "equipmentId" INTEGER NOT NULL,
     "sparePartId" INTEGER NOT NULL,
+    "clientId" INTEGER,
+    "amount" INTEGER NOT NULL,
     "type" TEXT NOT NULL,
     "status" TEXT NOT NULL,
     "description" TEXT NOT NULL,
@@ -112,6 +114,9 @@ ALTER TABLE "Maintenance" ADD CONSTRAINT "Maintenance_equipmentId_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "Maintenance" ADD CONSTRAINT "Maintenance_sparePartId_fkey" FOREIGN KEY ("sparePartId") REFERENCES "SparePart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Maintenance" ADD CONSTRAINT "Maintenance_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "Clients"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Rental" ADD CONSTRAINT "Rental_paymentId_fkey" FOREIGN KEY ("paymentId") REFERENCES "Payment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

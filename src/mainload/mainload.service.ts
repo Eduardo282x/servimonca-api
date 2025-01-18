@@ -109,8 +109,10 @@ export class MainloadService {
             const maintenanceData = Array.from({ length: 10 }, (_, i) => ({
                 equipmentId: i + 1,
                 sparePartId: i + 1,
-                status: i % 2 === 0 ? 'Pendiente' : 'Completada',
+                status: i % 2 === 0 ? 'Pendiente' : 'Procesando',
                 type: i % 2 === 0 ? 'Preventivo' : 'Correctivo',
+                amount: 20,
+                clientId: i % 2 === 0 ? null : 2,
                 description: `Descripción del mantenimiento ${i + 1}`,
                 maintenanceDate: new Date(),
             }));

@@ -31,6 +31,9 @@ model Maintenance {
   equipment       Equipment @relation(fields: [equipmentId], references: [id])
   sparePartId     Int
   sparePart       SparePart @relation(fields: [sparePartId], references: [id])
+  clientId        Int?
+  client          Clients?   @relation(fields: [clientId], references: [id])
+  amount          Int
   type            String
   status          String
   description     String
@@ -62,15 +65,16 @@ model Payment {
 }
 
 model Clients {
-  id        Int      @id @default(autoincrement())
-  name      String
-  lastname  String
-  rif       String
-  phone     String
-  email     String
-  address   String
-  rentals   Rental[]
-  createdAt DateTime @default(now())
+  id          Int           @id @default(autoincrement())
+  name        String
+  lastname    String
+  rif         String
+  phone       String
+  email       String
+  address     String
+  rentals     Rental[]
+  createdAt   DateTime      @default(now())
+  Maintenance Maintenance[]
 }
 
 model Equipment {
