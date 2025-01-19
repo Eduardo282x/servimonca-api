@@ -21,7 +21,8 @@ export class MaintenanceService {
                 clientId: null
             },
             include: {
-                equipment: true
+                equipment: true,
+                sparePart: true
             }
         });
     }
@@ -35,7 +36,8 @@ export class MaintenanceService {
                 status: status,
             },
             include: {
-                equipment: true
+                equipment: true,
+                sparePart: true
             }
         });
     }
