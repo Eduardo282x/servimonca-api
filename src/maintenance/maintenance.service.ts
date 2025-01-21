@@ -37,7 +37,8 @@ export class MaintenanceService {
             },
             include: {
                 equipment: true,
-                sparePart: true
+                sparePart: true,
+                client: true
             }
         });
     }
@@ -54,7 +55,9 @@ export class MaintenanceService {
                 },
             },
             include: {
-                equipment: true
+                equipment: true,
+                sparePart: true,
+                client: true
             }
         });
     }
