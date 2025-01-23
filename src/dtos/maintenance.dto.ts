@@ -38,3 +38,10 @@ export class DtoUpdateStatusMaintenance {
     @IsString()
     status: string;
 }
+
+export class DtoMaintenanceSparePart {
+    @IsNumber()
+    sparePartId: number;
+    @IsNumber()
+    amount: number;
+}

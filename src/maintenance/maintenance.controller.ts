@@ -1,13 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { MaintenanceService, statusMaintenance } from './maintenance.service';
-import { Maintenance } from '@prisma/client';
-import { DtoMaintenance, DtoUpdateCompleteMaintenance, DtoUpdateMaintenance, DtoUpdateStatusMaintenance } from 'src/dtos/maintenance.dto';
+import { MaintenanceService, statusMaintenance, statusMaintenanceSparePart } from './maintenance.service';
+import { Maintenance, MaintenanceSparePart } from '@prisma/client';
+import { DtoMaintenance, DtoMaintenanceSparePart, DtoUpdateCompleteMaintenance, DtoUpdateMaintenance, DtoUpdateStatusMaintenance } from 'src/dtos/maintenance.dto';
 
 @Controller('maintenance')
 export class MaintenanceController {
 
     constructor(private mainteanceService: MaintenanceService) {
-
     }
 
     @Get('/:status')
@@ -23,11 +22,29 @@ export class MaintenanceController {
         return await this.mainteanceService.getMaintenancesAll(status);
     }
 
+    @Get('/sparePart/all')
+    async getMaintenanceSparePartAll(): Promise<MaintenanceSparePart[]> {
+        return await this.mainteanceService.getMaintenanceSparePartAll();
+    }
+    @Get('/sparePart/:status')
+    async getMaintenanceSparePart(@Param('status') status: statusMaintenanceSparePart): Promise<MaintenanceSparePart[]> {
+        return await this.mainteanceService.getMaintenanceSparePart(status);
+    }
+
+    @Post('/sparePart')
+    async requestSparePartMaintenance(@Body() newMaintenance: DtoMaintenanceSparePart) {
+        return await this.mainteanceService.requestSparePartMaintenance(newMaintenance);
+    }
+
     @Post()
     async createMaintenance(@Body() newMaintenance: DtoMaintenance) {
         return await this.mainteanceService.createMaintenance(newMaintenance);
     }
 
+    @Put('/sparePart/status')
+    async updateStatusMaintenanceSpare(@Body() maintenance: DtoUpdateStatusMaintenance) {
+        return await this.mainteanceService.updateStatusMaintenanceSpare(maintenance);
+    }
     @Put('/status')
     async updateStatusMaintenance(@Body() maintenance: DtoUpdateStatusMaintenance) {
         return await this.mainteanceService.updateStatusMaintenance(maintenance);
@@ -35,14 +52,5 @@ export class MaintenanceController {
     @Put('/completed')
     async updateCompleteMaintenance(@Body() maintenance: DtoUpdateCompleteMaintenance) {
         return await this.mainteanceService.updateCompleteMaintenance(maintenance);
-    }
-    @Put()
-    async updateMaintenance(@Body() maintenance: DtoUpdateMaintenance) {
-        return await this.mainteanceService.updateMaintenance(maintenance);
-    }
-
-    @Delete('/:id')
-    async deleteMaintenance(@Param('id') id: number) {
-        return await this.mainteanceService.deleteMaintenance(id);
     }
 }
