@@ -30,7 +30,7 @@ export class PaymentController {
     }
 
     @Delete('/:id')
-    async remove(@Param('id') id: number) {
-        return this.paymentService.deletePayment(id);
+    async remove(@Param('id') id: string) {
+        return this.paymentService.deletePayment(Number(id));
     }
 }

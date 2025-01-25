@@ -57,7 +57,7 @@ export class PaymentService {
     }
 
     async deletePayment(id: number): Promise<DtoBaseResponse> {
-        try {
+    try {
             await this.prismaService.payment.delete({
                 where: {
                     id: id

@@ -1,25 +1,59 @@
 import { Injectable } from '@nestjs/common';
 import { Rental } from '@prisma/client';
 import { DtoBaseResponse, baseResponse } from 'src/dtos/base.dto';
-import { DtoRental, DtoUpdateRental, DtoUpdateStatusRental } from 'src/dtos/rental.dto';
+import { DtoRental, DtoUpdateStatusRental } from 'src/dtos/rental.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+
+export type statusRental = 'Entregado' | 'Solicitado' | 'Denegado' | 'Recibido';
 
 @Injectable()
 export class RentalService {
 
     constructor(private prismaService: PrismaService) { }
 
-    async getRentals(status: string): Promise<Rental[]> {
+    async getRentalsAll(): Promise<Rental[]> {
         return await this.prismaService.rental.findMany({
-            orderBy:{
+            orderBy: {
                 id: 'asc'
-            },
-            where: {
-                status: status === 'active' ? true : false
             },
             include: {
                 client: true,
                 equipment: true,
+                payment: true
+            }
+        });
+    }
+
+    async getRentalsStore(): Promise<Rental[]> {
+        return await this.prismaService.rental.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            where: {
+                status: {
+                    in: ['Entregado', 'Solicitado']
+                }
+            },
+            include: {
+                client: true,
+                equipment: true,
+                payment: true
+            }
+        });
+    }
+
+    async getRentals(status: statusRental): Promise<Rental[]> {
+        return await this.prismaService.rental.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            where: {
+                status: status
+            },
+            include: {
+                client: true,
+                equipment: true,
+                payment: true
             }
         });
     }
@@ -30,16 +64,15 @@ export class RentalService {
                 data: {
                     clientId: newRent.clientId,
                     equipmentId: newRent.equipmentId,
-                    rentalStartDate: newRent.rentalStartDate,
-                    rentalEndDate: newRent.rentalEndDate,
+                    rentalStartDate: null,
+                    rentalEndDate: null,
                     totalCost: newRent.totalCost,
                     paymentId: newRent.paymentId,
-                    status: false,
-                    checked: false,
+                    status: 'Solicitado',
                     description: newRent.description
                 },
             });
-            baseResponse.message = 'Renta creado exitosamente';
+            baseResponse.message = 'Alquiler Solicitada';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;
@@ -49,7 +82,7 @@ export class RentalService {
 
     async updateStatusRent(rent: DtoUpdateStatusRental): Promise<DtoBaseResponse> {
         try {
-            await this.prismaService.rental.update({
+            const rentEquipment = await this.prismaService.rental.update({
                 data: {
                     status: rent.status,
                 },
@@ -57,47 +90,47 @@ export class RentalService {
                     id: rent.id
                 }
             });
-            baseResponse.message = 'Estado actualizado exitosamente';
-            return baseResponse;
-        } catch (err) {
-            baseResponse.message += err.message;
-            return baseResponse;
-        }
-    }
 
-    async updateRent(rent: DtoUpdateRental): Promise<DtoBaseResponse> {
-        try {
-            await this.prismaService.rental.update({
-                data: {
-                    clientId: rent.clientId,
-                    equipmentId: rent.equipmentId,
-                    rentalStartDate: rent.rentalStartDate,
-                    rentalEndDate: rent.rentalEndDate,
-                    totalCost: rent.totalCost,
-                    paymentId: rent.paymentId,
-                    
-                    description: rent.description
-                },
-                where: {
-                    id: rent.id
-                }
-            });
-            baseResponse.message = 'Renta actualizado exitosamente';
-            return baseResponse;
-        } catch (err) {
-            baseResponse.message += err.message;
-            return baseResponse;
-        }
-    }
+            if (rent.status === 'Entregado') {
+                await this.prismaService.equipment.update({
+                    data: {
+                        currentStatus: 'Usado',
+                    },
+                    where: {
+                        id: rentEquipment.equipmentId
+                    }
+                })
 
-    async deleteRent(id: number): Promise<DtoBaseResponse> {
-        try {
-            await this.prismaService.rental.delete({
-                where: {
-                    id: id
-                }
-            });
-            baseResponse.message = 'Renta eliminado exitosamente';
+                await this.prismaService.rental.update({
+                    data: {
+                        rentalStartDate: new Date(),
+                    },
+                    where: {
+                        id: rent.id
+                    }
+                })
+            }
+
+            if (rent.status === 'Recibido') {
+                await this.prismaService.equipment.update({
+                    data: {
+                        currentStatus: 'Disponible'
+                    },
+                    where: {
+                        id: rentEquipment.equipmentId
+                    }
+                })
+
+                await this.prismaService.rental.update({
+                    data: {
+                        rentalEndDate: new Date(),
+                    },
+                    where: {
+                        id: rent.id
+                    }
+                })
+            }
+            baseResponse.message = 'Estado actualizado.';
             return baseResponse;
         } catch (err) {
             baseResponse.message += err.message;

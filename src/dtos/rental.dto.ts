@@ -1,17 +1,18 @@
 import { Transform } from "class-transformer";
 import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
+import { statusRental } from "src/rental/rental.service";
 
 export class DtoRental {
     @IsNumber()
     clientId: number;
     @IsNumber()
     equipmentId: number;
-    @Transform(({ value }) => new Date(value))
-    @IsDate()
-    rentalStartDate: Date;
-    @Transform(({ value }) => new Date(value))
-    @IsDate()
-    rentalEndDate: Date;
+    // @Transform(({ value }) => new Date(value))
+    // @IsDate()
+    // rentalStartDate: Date;
+    // @Transform(({ value }) => new Date(value))
+    // @IsDate()
+    // rentalEndDate: Date;
 
     @IsNumber({allowInfinity: true, allowNaN: true})
     totalCost: number;
@@ -29,6 +30,6 @@ export class DtoUpdateRental extends DtoRental {
 export class DtoUpdateStatusRental {
     @IsNumber()
     id: number;
-    @IsBoolean()
-    status: boolean;
+    @IsString()
+    status: statusRental;
 }

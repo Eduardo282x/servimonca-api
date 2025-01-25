@@ -102,9 +102,8 @@ model Rental {
   rentalEndDate   DateTime
   totalCost       Int
   paymentId       Int
-  checked         Boolean?
   description     String?
-  status          Boolean
+  status          String
   payment         Payment   @relation(fields: [paymentId], references: [id])
   client          Clients   @relation(fields: [clientId], references: [id])
   equipment       Equipment @relation(fields: [equipmentId], references: [id])

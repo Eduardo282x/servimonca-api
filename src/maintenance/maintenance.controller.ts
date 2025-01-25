@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { MaintenanceService, statusMaintenance, statusMaintenanceSparePart } from './maintenance.service';
 import { Maintenance, MaintenanceSparePart } from '@prisma/client';
-import { DtoMaintenance, DtoMaintenanceSparePart, DtoUpdateCompleteMaintenance, DtoUpdateMaintenance, DtoUpdateStatusMaintenance } from 'src/dtos/maintenance.dto';
+import { DtoMaintenance, DtoMaintenanceSparePart, DtoUpdateAmountMaintenance, DtoUpdateCompleteMaintenance, DtoUpdateMaintenance, DtoUpdateStatusMaintenance } from 'src/dtos/maintenance.dto';
 
 @Controller('maintenance')
 export class MaintenanceController {
@@ -41,6 +41,10 @@ export class MaintenanceController {
         return await this.mainteanceService.createMaintenance(newMaintenance);
     }
 
+    @Put('/sparePart/amount')
+    async updateAmountMaintenanceSpare(@Body() maintenance: DtoUpdateAmountMaintenance) {
+        return await this.mainteanceService.updateAmountMaintenanceSpare(maintenance);
+    }
     @Put('/sparePart/status')
     async updateStatusMaintenanceSpare(@Body() maintenance: DtoUpdateStatusMaintenance) {
         return await this.mainteanceService.updateStatusMaintenanceSpare(maintenance);

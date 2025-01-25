@@ -4,7 +4,7 @@ import { baseResponse, DtoBaseResponse } from 'src/dtos/base.dto';
 import { DtoEquipment, DtoUpdateEquipment } from 'src/dtos/equipment.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-export type statusEquipment = 'Disponible' | 'Usado';
+export type statusEquipment = 'Disponible' | 'Usado' | 'Mantenimiento';
 
 
 @Injectable()

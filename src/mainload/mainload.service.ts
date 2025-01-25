@@ -99,9 +99,8 @@ export class MainloadService {
                 rentalEndDate: new Date(new Date().setDate(new Date().getDate() + 7)),
                 totalCost: 5000 + i * 500,
                 paymentId: i + 1,
-                checked: i % 2 === 0,
                 description: null,
-                status: i % 2 === 0 ? true : false,
+                status: i % 2 === 0 ? 'Solicitado' : 'Entregado',
             }));
             await this.prismaService.rental.createMany({ data: rentalData });
 
@@ -109,7 +108,7 @@ export class MainloadService {
             const maintenanceSpareData = Array.from({ length: 10 }, (_, i) => ({
                 sparePartId: i + 1,
                 amount: 20,
-                status: i % 2 === 0 ? 'Solicitado' : 'Instalado',
+                status: i % 2 === 0 ? 'Solicitado' : 'Aprobado',
             }));
 
             await this.prismaService.maintenanceSparePart.createMany({ data: maintenanceSpareData });

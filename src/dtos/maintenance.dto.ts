@@ -12,12 +12,8 @@ export class DtoMaintenance {
     @IsNumber()
     equipmentId: number;
     @IsNumber()
-    amount: number;
-    @IsNumber()
     @IsOptional()
     clientId: number;
-    @IsNumber()
-    sparePartId: number;
 }
 
 export class DtoUpdateMaintenance extends DtoMaintenance {
@@ -37,6 +33,13 @@ export class DtoUpdateStatusMaintenance {
     id: number;
     @IsString()
     status: string;
+}
+
+export class DtoUpdateAmountMaintenance {
+    @IsNumber()
+    id: number;
+    @IsNumber()
+    amount: number;
 }
 
 export class DtoMaintenanceSparePart {
