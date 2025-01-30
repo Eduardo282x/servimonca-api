@@ -210,9 +210,6 @@ export class MaintenanceService {
                     where: { sparePartId: findMaintenanceSparePart.sparePartId },
                 });
 
-                console.log(relatedSpareParts);
-                
-
                 // Sumar las cantidades de los registros relacionados
                 const totalAmount = relatedSpareParts.reduce((sum, part) => sum + part.amount, 0);
 
