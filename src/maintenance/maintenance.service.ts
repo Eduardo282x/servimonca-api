@@ -68,8 +68,6 @@ export class MaintenanceService {
     }
 
     async getMaintenanceClient(status: statusMaintenance): Promise<Maintenance[]> {
-        console.log('hola');
-        
         return await this.prismaService.maintenance.findMany({
             orderBy: {
                 id: 'desc'
