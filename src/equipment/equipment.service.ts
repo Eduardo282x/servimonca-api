@@ -15,14 +15,14 @@ export class EquipmentService {
     async getEquipmentAll(): Promise<Equipment[]> {
         return await this.prismaService.equipment.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             }
         });
     }
     async getEquipment(status: statusEquipment): Promise<Equipment[]> {
         return await this.prismaService.equipment.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 currentStatus: status 

@@ -14,7 +14,7 @@ export class RentalService {
     async getRentalsAll(): Promise<Rental[]> {
         return await this.prismaService.rental.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             include: {
                 client: true,
@@ -27,7 +27,7 @@ export class RentalService {
     async getRentalsStore(): Promise<Rental[]> {
         return await this.prismaService.rental.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 status: {
@@ -45,7 +45,7 @@ export class RentalService {
     async getRentals(status: statusRental): Promise<Rental[]> {
         return await this.prismaService.rental.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 status: status

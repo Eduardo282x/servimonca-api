@@ -15,7 +15,7 @@ export class MaintenanceService {
     async getMaintenances(status: statusMaintenance): Promise<Maintenance[]> {
         return await this.prismaService.maintenance.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 status: status,
@@ -30,7 +30,7 @@ export class MaintenanceService {
     async getMaintenanceSparePartAll(): Promise<MaintenanceSparePart[]> {
         return await this.prismaService.maintenanceSparePart.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             include: {
                 sparePart: true,
@@ -41,7 +41,7 @@ export class MaintenanceService {
     async getMaintenanceSparePart(status: statusMaintenanceSparePart): Promise<MaintenanceSparePart[]> {
         return await this.prismaService.maintenanceSparePart.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 status: status,
@@ -55,7 +55,7 @@ export class MaintenanceService {
     async getMaintenancesAll(status: statusMaintenance): Promise<Maintenance[]> {
         return await this.prismaService.maintenance.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 status: status,
@@ -72,7 +72,7 @@ export class MaintenanceService {
         
         return await this.prismaService.maintenance.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 status: status,
@@ -90,7 +90,7 @@ export class MaintenanceService {
     async getMaintenanceClientAll(): Promise<Maintenance[]> {
         return await this.prismaService.maintenance.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 clientId: {

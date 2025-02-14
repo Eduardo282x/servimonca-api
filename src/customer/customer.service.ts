@@ -12,7 +12,7 @@ export class CustomerService {
     async getCustomers(): Promise<Clients[]> {
         return await this.prismaService.clients.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             }
         });
     }
