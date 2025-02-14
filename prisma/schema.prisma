@@ -26,17 +26,18 @@ model Roles {
 }
 
 model Maintenance {
-  id              Int        @id @default(autoincrement())
-  equipmentId     Int?
-  equipmentClient String?
-  equipment       Equipment? @relation(fields: [equipmentId], references: [id])
-  clientId        Int?
-  client          Clients?   @relation(fields: [clientId], references: [id])
-  type            String
-  status          String
-  description     String
-  maintenanceDate DateTime
-  createdAt       DateTime   @default(now())
+  id                 Int        @id @default(autoincrement())
+  equipmentId        Int?
+  equipmentClient    String?
+  equipment          Equipment? @relation(fields: [equipmentId], references: [id])
+  clientId           Int?
+  client             Clients?   @relation(fields: [clientId], references: [id])
+  type               String
+  status             String
+  description        String
+  maintenanceDate    DateTime
+  maintenanceDateEnd DateTime?
+  createdAt          DateTime   @default(now())
 }
 
 model MaintenanceSparePart {

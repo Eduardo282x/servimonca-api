@@ -139,6 +139,7 @@ export class MaintenanceService {
                     equipmentId: newMaintenance.equipmentId,
                     equipmentClient: newMaintenance.equipmentClient,
                     type: newMaintenance.type,
+                    maintenanceDateEnd: null,
                     clientId: newMaintenance.clientId ? newMaintenance.clientId : null,
                     status: newMaintenance.clientId ? 'Pendiente' : 'Procesando',
                     description: newMaintenance.description,
@@ -299,6 +300,7 @@ export class MaintenanceService {
             await this.prismaService.maintenance.update({
                 data: {
                     description: maintenance.description,
+                    maintenanceDateEnd: new Date(),
                     status: 'Completado'
                 },
                 where: {
