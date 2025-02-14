@@ -68,6 +68,8 @@ export class MaintenanceService {
     }
 
     async getMaintenanceClient(status: statusMaintenance): Promise<Maintenance[]> {
+        console.log('hola');
+        
         return await this.prismaService.maintenance.findMany({
             orderBy: {
                 id: 'asc'
@@ -77,6 +79,23 @@ export class MaintenanceService {
                 clientId: {
                     not: null
                 },
+            },
+            include: {
+                equipment: true,
+                client: true
+            }
+        });
+    }
+
+    async getMaintenanceClientAll(): Promise<Maintenance[]> {
+        return await this.prismaService.maintenance.findMany({
+            orderBy: {
+                id: 'asc'
+            },
+            where: {
+                clientId: {
+                    not: null
+                }
             },
             include: {
                 equipment: true,
@@ -97,25 +116,28 @@ export class MaintenanceService {
             baseResponse.message = 'Repuesto solicitado';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
 
     async createMaintenance(newMaintenance: DtoMaintenance): Promise<DtoBaseResponse> {
         try {
+            if (newMaintenance.equipmentId) {
+                await this.prismaService.equipment.update({
+                    data: {
+                        currentStatus: 'Mantenimiento'
+                    },
+                    where: {
+                        id: newMaintenance.equipmentId
+                    }
+                })
+            }
 
-            await this.prismaService.equipment.update({
-                data: {
-                    currentStatus: 'Mantenimiento'
-                },
-                where: {
-                    id: newMaintenance.equipmentId
-                }
-            })
             await this.prismaService.maintenance.create({
                 data: {
                     equipmentId: newMaintenance.equipmentId,
+                    equipmentClient: newMaintenance.equipmentClient,
                     type: newMaintenance.type,
                     clientId: newMaintenance.clientId ? newMaintenance.clientId : null,
                     status: newMaintenance.clientId ? 'Pendiente' : 'Procesando',
@@ -126,7 +148,7 @@ export class MaintenanceService {
             baseResponse.message = 'Mantenimiento registrado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -155,7 +177,7 @@ export class MaintenanceService {
             baseResponse.message = 'Cantidad de repuestos actualizada.';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -251,7 +273,7 @@ export class MaintenanceService {
             baseResponse.message = 'Estado del mantenimiento actualizado.';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -286,7 +308,7 @@ export class MaintenanceService {
             baseResponse.message = 'Mantenimiento completado.';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }

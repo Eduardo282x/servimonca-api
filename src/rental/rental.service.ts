@@ -75,7 +75,7 @@ export class RentalService {
             baseResponse.message = 'Alquiler Solicitada';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -133,7 +133,7 @@ export class RentalService {
             baseResponse.message = 'Estado actualizado.';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }

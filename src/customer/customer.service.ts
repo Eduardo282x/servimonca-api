@@ -32,7 +32,7 @@ export class CustomerService {
             baseResponse.message = 'Cliente creado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -55,7 +55,7 @@ export class CustomerService {
             baseResponse.message = 'Cliente actualizado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -70,7 +70,7 @@ export class CustomerService {
             baseResponse.message = 'Cliente eliminado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }

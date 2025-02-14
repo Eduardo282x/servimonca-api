@@ -10,7 +10,11 @@ export class DtoMaintenance {
     @IsString()
     type: string;
     @IsNumber()
+    @IsOptional()
     equipmentId: number;
+    @IsString()
+    @IsOptional()
+    equipmentClient: string;
     @IsNumber()
     @IsOptional()
     clientId: number;

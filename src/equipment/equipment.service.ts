@@ -43,7 +43,7 @@ export class EquipmentService {
             baseResponse.message = 'Equipo agregado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -64,7 +64,7 @@ export class EquipmentService {
             baseResponse.message = 'Equipo actualizado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -79,7 +79,7 @@ export class EquipmentService {
             baseResponse.message = 'Equipo eliminado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }

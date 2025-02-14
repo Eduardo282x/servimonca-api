@@ -14,7 +14,7 @@ export class SparepartService {
     async getSpareparts(status: statusSparePart): Promise<SparePart[]> {
         return this.prismaService.sparePart.findMany({
             orderBy: {
-                id: 'asc'
+                id: 'desc'
             },
             where: {
                 status: status
@@ -47,7 +47,7 @@ export class SparepartService {
             baseResponse.message = 'Repuesto agregado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }
@@ -70,7 +70,7 @@ export class SparepartService {
             baseResponse.message = 'Repuesto actualizado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }
@@ -114,7 +114,7 @@ export class SparepartService {
             baseResponse.message = 'Estado de la orden actualizado.';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }
@@ -129,7 +129,7 @@ export class SparepartService {
             baseResponse.message = 'Equipo eliminado exitosamente';
             return baseResponse;
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }

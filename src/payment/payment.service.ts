@@ -28,7 +28,7 @@ export class PaymentService {
             baseResponse.message = 'Método de pago agregado'
             return baseResponse
         } catch (err) {
-            badResponse.message += err;
+            badResponse.message = err;
             return badResponse;
         }
     }
@@ -51,7 +51,7 @@ export class PaymentService {
             baseResponse.message = 'Método de pago actualizado exitosamente';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }
@@ -66,7 +66,7 @@ export class PaymentService {
             baseResponse.message = 'Método de pago eliminado.';
             return baseResponse;
         } catch (err) {
-            baseResponse.message += err.message;
+            baseResponse.message = err.message;
             return baseResponse;
         }
     }

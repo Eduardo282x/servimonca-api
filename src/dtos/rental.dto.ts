@@ -7,13 +7,6 @@ export class DtoRental {
     clientId: number;
     @IsNumber()
     equipmentId: number;
-    // @Transform(({ value }) => new Date(value))
-    // @IsDate()
-    // rentalStartDate: Date;
-    // @Transform(({ value }) => new Date(value))
-    // @IsDate()
-    // rentalEndDate: Date;
-
     @IsNumber({allowInfinity: true, allowNaN: true})
     totalCost: number;
     @IsNumber()

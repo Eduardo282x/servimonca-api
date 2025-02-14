@@ -127,7 +127,7 @@ export class MainloadService {
             baseResponse.message = 'Data cargada exitosamente';
             return baseResponse
         } catch (err) {
-            badResponse.message += err.message;
+            badResponse.message = err.message;
             return badResponse;
         }
     }

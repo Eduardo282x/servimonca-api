@@ -9,19 +9,19 @@ export class MaintenanceController {
     constructor(private mainteanceService: MaintenanceService) {
     }
 
-    @Get('/:status')
-    async getMaintenance(@Param('status') status: statusMaintenance): Promise<Maintenance[]> {
-        return await this.mainteanceService.getMaintenances(status);
+    @Get('/clientAll')
+    async getMaintenanceClientAll(): Promise<Maintenance[]> {
+        return await this.mainteanceService.getMaintenanceClientAll();
     }
     @Get('/client/:status')
     async getMaintenanceClient(@Param('status') status: statusMaintenance): Promise<Maintenance[]> {
         return await this.mainteanceService.getMaintenanceClient(status);
     }
+
     @Get('/all/:status')
     async getMaintenancesAll(@Param('status') status: statusMaintenance): Promise<Maintenance[]> {
         return await this.mainteanceService.getMaintenancesAll(status);
     }
-
     @Get('/sparePart/all')
     async getMaintenanceSparePartAll(): Promise<MaintenanceSparePart[]> {
         return await this.mainteanceService.getMaintenanceSparePartAll();
@@ -29,6 +29,10 @@ export class MaintenanceController {
     @Get('/sparePart/:status')
     async getMaintenanceSparePart(@Param('status') status: statusMaintenanceSparePart): Promise<MaintenanceSparePart[]> {
         return await this.mainteanceService.getMaintenanceSparePart(status);
+    }
+    @Get('/:status')
+    async getMaintenance(@Param('status') status: statusMaintenance): Promise<Maintenance[]> {
+        return await this.mainteanceService.getMaintenances(status);
     }
 
     @Post('/sparePart')
