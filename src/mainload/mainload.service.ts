@@ -29,23 +29,15 @@ export class MainloadService {
             await this.prismaService.user.createMany({
                 data: [
                     {
-                        firstName: 'Eduardo',
-                        lastName: 'Rojas',
+                        firstName: 'Ana',
+                        lastName: 'Huang',
                         username: 'admin',
                         password: 'admin',
-                        identify: '28391325',
+                        identify: '26514093',
                         rolId: 1,
                         status: true
                     },
-                    {
-                        firstName: 'Luis',
-                        lastName: 'Ugaz',
-                        username: 'luisangel',
-                        password: 'luisangel',
-                        identify: '00000000',
-                        rolId: 2,
-                        status: true
-                    }
+                    
                 ]
             });
 

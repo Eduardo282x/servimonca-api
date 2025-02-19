@@ -286,14 +286,18 @@ export class MaintenanceService {
                 }
             })
 
-            await this.prismaService.equipment.update({
-                data: {
-                    currentStatus: 'Disponible'
-                },
-                where: {
-                    id: findMaintenance.equipmentId
-                }
-            })
+            if(findMaintenance.equipmentId){
+
+                await this.prismaService.equipment.update({
+                    data: {
+                        currentStatus: 'Disponible'
+                    },
+                    where: {
+                        id: findMaintenance.equipmentId
+                    }
+                })
+            }
+
 
             await this.prismaService.maintenance.update({
                 data: {

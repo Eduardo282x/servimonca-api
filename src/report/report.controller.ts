@@ -53,10 +53,28 @@ export class ReportController {
 
     @Get('/download/sparePart')
     async generateMostRequestedSparePartsPDF(@Res() res: Response) {
-        return this.reportService.generateMostRequestedSparePartsPDF(res);
+        return await this.reportService.generateMostRequestedSparePartsPDF(res);
     }
 
+    @Get('/download/equipmentAvailable/:status')
+    async generateEquipmentsAvalaiblePDF(@Param('status') status: statusEquipment, @Res() res: Response) {
+        return await this.reportService.generateEquipmentsAvalaiblePDF(status, res);
+    }
 
+    @Get('/download/rentals/:status')
+    async generateRentalsPDF(@Param('status') status: statusRental, @Res() res: Response) {
+        return await this.reportService.generateRentalsPDF(status, res);
+    }
+
+    @Get('/download/request/:status')
+    async generateMaintenancePDF(@Param('status') status: statusMaintenance,  @Res() res: Response) {
+        return await this.reportService.generateMaintenancePDF(status, res);
+    }
+
+    @Get('/download/requestClient/:status')
+    async generateMaintenanceClientPDF(@Param('status') status: statusMaintenance,  @Res() res: Response) {
+        return await this.reportService.generateMaintenanceClientPDF(status, res);
+    }
 
 
 }
